@@ -17,7 +17,7 @@ namespace LibraryManagement.Api.Injections
         private static void LibraryManagementBusinessInjections(IServiceCollection services)
         {
             services.AddTransient<ILibraryManagementBusiness, LibraryManagementBusiness>();
-            services.AddSingleton<ILibraryRegistry, LibraryRegistry>();
+            services.AddSingleton<ILibraryRegistry>((sp) => new LibraryRegistry(null, null));
 
         }
 

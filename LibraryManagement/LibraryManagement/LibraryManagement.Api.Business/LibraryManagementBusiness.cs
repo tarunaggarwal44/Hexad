@@ -9,11 +9,9 @@ namespace LibraryManagement.Api.Business
 {
     public class LibraryManagementBusiness : ILibraryManagementBusiness
     {
-        private readonly ILibraryManagementRepository libraryManagementRepository;
         private readonly ILibraryRegistry libraryRegistry;
-        public LibraryManagementBusiness(ILibraryManagementRepository libraryManagementRepository, ILibraryRegistry libraryRegistry)
+        public LibraryManagementBusiness(ILibraryRegistry libraryRegistry)
         {
-            this.libraryManagementRepository = libraryManagementRepository;
             this.libraryRegistry = libraryRegistry;
         }
 

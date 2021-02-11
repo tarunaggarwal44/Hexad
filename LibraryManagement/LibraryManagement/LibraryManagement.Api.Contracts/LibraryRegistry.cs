@@ -5,15 +5,26 @@ using System.Linq;
 
 namespace LibraryManagement.Api.Contracts
 {
+
+
     public class LibraryRegistry : ILibraryRegistry
     {
         private List<BookRegistry> bookRegistry;
         private List<UserRegistry> userRegistry;
 
-        public LibraryRegistry()
+        public LibraryRegistry(List<User> users, List<Book> books)
         {
-            this.userRegistry = this.CreateUserRegistry(this.GetAllUsers());
-            this.bookRegistry = this.CreateBookRegistry(this.GetAllBooks());
+            if (users == null)
+            {
+                users = this.GetAllUsers();
+            }
+            if (books == null)
+            {
+                books = this.GetAllBooks();
+            }
+            
+            this.userRegistry = this.CreateUserRegistry(users);
+            this.bookRegistry = this.CreateBookRegistry(books);
         }
         public List<BookRegistry> BookRegistry => this.bookRegistry;
 

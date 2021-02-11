@@ -11,38 +11,38 @@ using System.Threading.Tasks;
 namespace LibraryManagement.Api.Business
 {
     [TestFixture]
-    public class LibraryConfigurationBusinessTests
+    public class LibraryManagementBusinessTests
     {
         private const string CUSTOMERID = "CUSTOMERID";
         private const string EMAIL = "a@gmail.com";
         
-        private Mock<ILibraryManagementRepository> libraryManagementRepositoryMock;
-        private LibraryConfigurationBusiness libraryConfigurationBusiness;
-
+        private ILibraryRegistry libraryRegistry;
+        private LibraryManagementBusiness libraryManagementBusiness;
         [SetUp]
         public void SetUp()
         {
-            libraryManagementRepositoryMock = new Mock<ILibraryManagementRepository>();
-            libraryConfigurationBusiness = new LibraryConfigurationBusiness(libraryManagementRepositoryMock.Object);
+            
+
+            
         }
 
         [Test]
-        public void CreateLibraryRegistry()
+        public void GetAllAvailableBooks_()
         {
-            var allBooks = CreateAllBooks();
-            var uniqueBooks = allBooks.GroupBy(a => a.Id).Count();
-            var allUsers = CreateUsers();
-            libraryManagementRepositoryMock.Setup(a => a.GetAllBooks()).Returns(allBooks);
-            libraryManagementRepositoryMock.Setup(a => a.GetAllUsers()).Returns(allUsers);
-            var libraryRegistry =  libraryConfigurationBusiness.CreateLibraryRegistry();
+            var users = GetAllUsers();
+            var books  = GetAllBooks();
+            this.libraryRegistry = new LibraryRegistry(users, books);
+            this.libraryManagementBusiness = new LibraryManagementBusiness(this.libraryRegistry);
+
+            var response = this.libraryManagementBusiness.GetAllAvailableBooks();
 
 
-            Assert.AreEqual(libraryRegistry.BookRegistry.Count, uniqueBooks);
-            Assert.AreEqual(libraryRegistry.UserRegistry.Count, allUsers.Count);
+            //Assert.AreEqual(libraryRegistry.BookRegistry.Count, uniqueBooks);
+            //Assert.AreEqual(libraryRegistry.UserRegistry.Count, allUsers.Count);
         }
 
 
-        private List<User> CreateUsers()
+        private List<User> GetAllUsers()
         {
             var users = new List<User>();
 
@@ -57,7 +57,7 @@ namespace LibraryManagement.Api.Business
             return users;
         }
 
-        private List<Book> CreateAllBooks()
+        private List<Book> GetAllBooks()
         {
             var books = new List<Book>();
             var book = new Book() { Id = 1, Name = BookConstants.Sapien };
