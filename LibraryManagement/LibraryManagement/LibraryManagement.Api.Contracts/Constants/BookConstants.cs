@@ -4,5 +4,6 @@
     {
         public const string Sapien = "Sapien";
         public const string ZeroToOne = "ZeroToOne";
+        public const string PathAhead = "PathAhead";
     }
 }

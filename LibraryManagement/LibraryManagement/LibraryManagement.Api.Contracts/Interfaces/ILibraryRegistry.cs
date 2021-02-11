@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace LibraryManagement.Api.Contracts.Interfaces
 {
@@ -9,5 +7,9 @@ namespace LibraryManagement.Api.Contracts.Interfaces
         List<BookRegistry> BookRegistry { get; }
 
         List<UserRegistry> UserRegistry { get; }
+
+        void SetUserRegistry(List<UserRegistry> userRegistries);
+
+        void SetBookRegistry(List<BookRegistry> bookRegistries);
     }
 }

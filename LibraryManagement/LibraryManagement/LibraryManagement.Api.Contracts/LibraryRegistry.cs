@@ -97,5 +97,17 @@ namespace LibraryManagement.Api.Contracts
 
             return bookRegistries;
         }
+
+        public void SetUserRegistry(List<UserRegistry> userRegistries)
+        {
+            this.userRegistry = userRegistries;
+        }
+
+        public void SetBookRegistry(List<BookRegistry> bookRegistries)
+        {
+            this.bookRegistry = bookRegistries;
+        }
     }
+
+
 }
