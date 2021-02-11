@@ -26,14 +26,7 @@ namespace LibraryManagement.Api.Business
         {
             List<Book> allBorrowedBooks = GetAllBorrowedBooks();
             var bookRegisties = this.libraryRegistry.BookRegistry;
-            var allBooks = new List<Book>();
-            foreach (var bookRegistry in bookRegisties)
-            {
-                for(int i=0;i< bookRegistry.Count; i++)
-                {
-                    allBooks.Add(bookRegistry.Book);
-                }
-            }
+            List<Book> allBooks = GetAllBooksInLibrary(bookRegisties);
 
             var availableBooks = GetAvailableBooks(allBorrowedBooks, allBooks);
 
@@ -46,6 +39,20 @@ namespace LibraryManagement.Api.Business
 
             var response = new Response<List<Book>>() { Result = availableBooks };
             return await Task.FromResult(response);
+        }
+
+        private static List<Book> GetAllBooksInLibrary(List<BookRegistry> bookRegisties)
+        {
+            var allBooks = new List<Book>();
+            foreach (var bookRegistry in bookRegisties)
+            {
+                for (int i = 0; i < bookRegistry.Count; i++)
+                {
+                    allBooks.Add(bookRegistry.Book);
+                }
+            }
+
+            return allBooks;
         }
 
         private List<Book> GetAvailableBooks(List<Book> allBorrowedBooks, List<Book> allBooks)
