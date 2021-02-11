@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 
 namespace LibraryManagement.Api
 {
@@ -40,9 +39,9 @@ namespace LibraryManagement.Api
             LibraryManagementInjection.LoadInjections(services);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
+            
 
             if (env.IsDevelopment())
             {
@@ -72,7 +71,7 @@ namespace LibraryManagement.Api
             });
         }
 
-
+      
 
         private static void BadRequestConfiguration(IServiceCollection services)
         {
