@@ -1,4 +1,5 @@
 using LibraryManagement.Api.Common.Web.ExceptionHandlers;
+using LibraryManagement.Api.Contracts.Interfaces;
 using LibraryManagement.Api.Injections;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,9 +41,9 @@ namespace LibraryManagement.Api
             LibraryManagementInjection.LoadInjections(services);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
+            
 
             if (env.IsDevelopment())
             {
@@ -72,7 +73,7 @@ namespace LibraryManagement.Api
             });
         }
 
-
+      
 
         private static void BadRequestConfiguration(IServiceCollection services)
         {

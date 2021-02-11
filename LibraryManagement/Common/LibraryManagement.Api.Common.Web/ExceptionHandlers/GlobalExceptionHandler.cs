@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Serilog;
 using System.Collections.Generic;
 using System.Net;
 
@@ -20,8 +21,11 @@ namespace LibraryManagement.Api.Common.Web.ExceptionHandlers
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
                     if (contextFeature != null)
                     {
+
+                        Log.Error(contextFeature.Error, string.Empty);
                         await context.Response.WriteAsync(JsonConvert.SerializeObject(new List<string>() { "Internal Server Error" }));
                     }
+
                 });
             });
         }

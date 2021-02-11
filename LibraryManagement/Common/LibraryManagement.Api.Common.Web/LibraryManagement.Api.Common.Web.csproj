@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LibraryManagement.Api.Common.Contracts\LibraryManagement.Api.Common.Contracts.csproj" />
+    <ProjectReference Include="..\LibraryManagement.Api.Logging\LibraryManagement.Api.Logging.csproj" />
   </ItemGroup>
 
 </Project>
