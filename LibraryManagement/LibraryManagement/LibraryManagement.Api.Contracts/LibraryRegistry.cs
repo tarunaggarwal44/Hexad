@@ -52,16 +52,15 @@ namespace LibraryManagement.Api.Contracts
             books.Add(book);
             book = new Book() { Id = 1, Name = BookConstants.Sapien };
             books.Add(book);
-            book = new Book() { Id = 1, Name = BookConstants.Sapien };
+        
+            book = new Book() { Id = 2, Name = BookConstants.ZeroToOne };
             books.Add(book);
+            book = new Book() { Id = 2, Name = BookConstants.ZeroToOne };
+            books.Add(book);
+           
 
-            book = new Book() { Id = 2, Name = BookConstants.ZeroToOne };
+            book = new Book() { Id = 3, Name = BookConstants.PathAhead };
             books.Add(book);
-            book = new Book() { Id = 2, Name = BookConstants.ZeroToOne };
-            books.Add(book);
-            book = new Book() { Id = 2, Name = BookConstants.ZeroToOne };
-            books.Add(book);
-
 
             return books;
         }

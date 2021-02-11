@@ -25,7 +25,15 @@ namespace LibraryManagement.Api.Business
         public async Task<Response<List<Book>>> GetAllAvailableBooks()
         {
             List<Book> allBorrowedBooks = GetAllBorrowedBooks();
-            var allBooks = this.libraryRegistry.BookRegistry.Select(a => a.Book).ToList();
+            var bookRegisties = this.libraryRegistry.BookRegistry;
+            var allBooks = new List<Book>();
+            foreach (var bookRegistry in bookRegisties)
+            {
+                for(int i=0;i< bookRegistry.Count; i++)
+                {
+                    allBooks.Add(bookRegistry.Book);
+                }
+            }
 
             var availableBooks = GetAvailableBooks(allBorrowedBooks, allBooks);
 

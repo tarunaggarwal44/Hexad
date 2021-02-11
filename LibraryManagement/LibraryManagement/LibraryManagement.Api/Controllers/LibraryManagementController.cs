@@ -1,4 +1,5 @@
-﻿using LibraryManagement.Api.Contracts.Interfaces;
+﻿using LibraryManagement.Api.Contracts;
+using LibraryManagement.Api.Contracts.Interfaces;
 using LibraryManagement.Api.Web.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,12 +27,13 @@ namespace LibraryManagement.Api.Controllers
             return this.CreateGetHttpResponse(getBooksResponse);
         }
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpGet()]
-        public async Task<IActionResult> Post()
+        [HttpPost]
+        public async Task<IActionResult> Post(BorrowBook borrowBook)
         {
-            var getBooksResponse = await this.libraryManagementBusiness.GetAllAvailableBooks();
+            var getBooksResponse = await this.libraryManagementBusiness.BorrowBook(borrowBook.Email, borrowBook.BookId);
             return this.CreateGetHttpResponse(getBooksResponse);
         }
     }
