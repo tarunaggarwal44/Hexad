@@ -1,4 +1,5 @@
 ﻿using LibraryManagement.Api.Common.Contracts;
+using LibraryManagement.Api.Common.Contracts.Constants;
 using LibraryManagement.Api.Contracts;
 using LibraryManagement.Api.Contracts.Constants;
 using LibraryManagement.Api.Contracts.Interfaces;
@@ -45,7 +46,7 @@ namespace LibraryManagement.Api.Business
             var allUsers = GetAllUsers();
             var book = GetAllBooks().FirstOrDefault();
             this.libraryRegistry = new LibraryRegistry(allUsers, new List<Book>() { book });
-            this.libraryRegistry.SetUserRegistry(GetUserRegistries(book.Id, book.Name));
+            this.libraryRegistry.SetUserRegistry(GetDefaultUserRegistries(book.Id, book.Name));
             this.libraryManagementBusiness = new LibraryManagementBusiness(this.libraryRegistry);
 
             var availableBooksResponse = await this.libraryManagementBusiness.GetAllAvailableBooks();
@@ -61,7 +62,7 @@ namespace LibraryManagement.Api.Business
             var allBooks = GetAllBooks();
             var uniqueBooksCount = allBooks.GroupBy(a => a.Id).Count();
             this.libraryRegistry = new LibraryRegistry(allUsers, allBooks);
-            this.libraryRegistry.SetUserRegistry(GetUserRegistries(3, BookConstants.PathAhead));
+            this.libraryRegistry.SetUserRegistry(GetDefaultUserRegistries(3, BookConstants.PathAhead));
             this.libraryManagementBusiness = new LibraryManagementBusiness(this.libraryRegistry);
 
 
@@ -71,12 +72,95 @@ namespace LibraryManagement.Api.Business
             Assert.AreEqual(availableBooksResponse.Result.Count, 2);
         }
 
-        private List<UserRegistry> GetUserRegistries(int id, string bookName)
+
+        [Test]
+        public async Task BorrowBook_UserDoesntExists_ReturnsUserDoesntExistsValidationResponse()
+        {
+            var allUsers = GetAllUsers();
+            var allBooks = GetAllBooks();
+            var uniqueBooksCount = allBooks.GroupBy(a => a.Id).Count();
+            this.libraryRegistry = new LibraryRegistry(allUsers, allBooks);
+            this.libraryRegistry.SetUserRegistry(GetDefaultUserRegistries(3, BookConstants.PathAhead));
+            this.libraryManagementBusiness = new LibraryManagementBusiness(this.libraryRegistry);
+
+
+            var borrowBookResponse = await this.libraryManagementBusiness.BorrowBook("asas", 1);
+
+            Assert.AreEqual(borrowBookResponse.ResultType, ResultType.ValidationError);
+            Assert.AreEqual(borrowBookResponse.Messages.First(), AppBusinessConstants.UserDoesntExists);
+        }
+
+        [Test]
+        public async Task BorrowBook_UserBookBorrowingMaxLimitExceeded_ReturnsUserBookBorrowingMaxLimitExceededValidationResponse()
+        {
+            var allUsers = GetAllUsers();
+            var allBooks = GetAllBooks();
+            var uniqueBooksCount = allBooks.GroupBy(a => a.Id).Count();
+            this.libraryRegistry = new LibraryRegistry(allUsers, allBooks);
+            this.libraryRegistry.SetUserRegistry(GetWith2BookedBorrowedUserRegistries());
+            this.libraryManagementBusiness = new LibraryManagementBusiness(this.libraryRegistry);
+
+
+            var borrowBookResponse = await this.libraryManagementBusiness.BorrowBook(UserConstants.User1, 1);
+
+            Assert.AreEqual(borrowBookResponse.ResultType, ResultType.ValidationError);
+            Assert.AreEqual(borrowBookResponse.Messages.First(), AppBusinessConstants.BookBorrowingMaxLimitExceeded);
+        }
+
+
+        [Test]
+        public async Task BorrowBook_BookDoesntExists_ReturnsBookDoesntExistsValidationResponse()
+        {
+            var allUsers = GetAllUsers();
+            var allBooks = GetAllBooks();
+            var uniqueBooksCount = allBooks.GroupBy(a => a.Id).Count();
+            this.libraryRegistry = new LibraryRegistry(allUsers, allBooks);
+            this.libraryManagementBusiness = new LibraryManagementBusiness(this.libraryRegistry);
+
+
+            var borrowBookResponse = await this.libraryManagementBusiness.BorrowBook(UserConstants.User1 , 10);
+
+            Assert.AreEqual(borrowBookResponse.ResultType, ResultType.ValidationError);
+            Assert.AreEqual(borrowBookResponse.Messages.First(), AppBusinessConstants.BookDoesntExists);
+        }
+
+
+        [Test]
+        public async Task BorrowBook_UserCanBorrowBook_ReturnsSuccessResponse()
+        {
+            var allUsers = GetAllUsers();
+            var allBooks = GetAllBooks();
+            var uniqueBooksCount = allBooks.GroupBy(a => a.Id).Count();
+            this.libraryRegistry = new LibraryRegistry(allUsers, allBooks);
+            this.libraryManagementBusiness = new LibraryManagementBusiness(this.libraryRegistry);
+
+
+            var borrowBookResponse = await this.libraryManagementBusiness.BorrowBook(UserConstants.User1, 1);
+
+            Assert.AreEqual(borrowBookResponse.ResultType, ResultType.Success);
+            Assert.AreEqual(borrowBookResponse.Result, true);
+        }
+
+
+        private List<UserRegistry> GetDefaultUserRegistries(int id, string bookName)
         {
             List<UserRegistry> userRegistries = new List<UserRegistry>();
             var userRegistry = new UserRegistry();
             userRegistry.User = new User() { Email = UserConstants.User1 };
             userRegistry.BorrowedBooks = new List<Book>() { new Book() { Id = id, Name = bookName } };
+            userRegistries.Add(userRegistry);
+
+            return userRegistries;
+        }
+
+        private List<UserRegistry> GetWith2BookedBorrowedUserRegistries()
+        {
+            List<UserRegistry> userRegistries = new List<UserRegistry>();
+            var userRegistry = new UserRegistry();
+            userRegistry.User = new User() { Email = UserConstants.User1 };
+            userRegistry.BorrowedBooks = new List<Book>() {
+                new Book() { Id = 1, Name = BookConstants.Sapien } ,new Book() { Id = 2, Name = BookConstants.ZeroToOne }
+            };
             userRegistries.Add(userRegistry);
 
             return userRegistries;

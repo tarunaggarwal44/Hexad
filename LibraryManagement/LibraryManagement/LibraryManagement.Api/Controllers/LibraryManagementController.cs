@@ -25,5 +25,14 @@ namespace LibraryManagement.Api.Controllers
             var getBooksResponse = await this.libraryManagementBusiness.GetAllAvailableBooks();
             return this.CreateGetHttpResponse(getBooksResponse);
         }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpGet()]
+        public async Task<IActionResult> Post()
+        {
+            var getBooksResponse = await this.libraryManagementBusiness.GetAllAvailableBooks();
+            return this.CreateGetHttpResponse(getBooksResponse);
+        }
     }
 }

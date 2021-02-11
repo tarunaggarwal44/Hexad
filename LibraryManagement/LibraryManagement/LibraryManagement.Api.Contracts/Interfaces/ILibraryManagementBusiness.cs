@@ -7,7 +7,7 @@ namespace LibraryManagement.Api.Contracts.Interfaces
     public interface ILibraryManagementBusiness
     {
         Task<Response<List<Book>>> GetAllAvailableBooks();
-
+        Task<Response<bool>> BorrowBook(string email, int bookId);
 
 
     }
