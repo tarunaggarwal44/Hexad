@@ -130,6 +130,12 @@ namespace LibraryManagement.Api.Business
                 return new Response<Book>() { ResultType = ResultType.ValidationError, Messages = new List<string>() { AppBusinessConstants.UserDoesntExists } };
             }
 
+            var userAlreadyHasSameBook = userRegistry.BorrowedBooks.FirstOrDefault(a => a.Id == bookId);
+            if (userAlreadyHasSameBook != null)
+            {
+                return new Response<Book>() { ResultType = ResultType.ValidationError, Messages = new List<string>() { AppBusinessConstants.UserAlreadyHasSameBook } };
+            }
+
 
             var alreadyBorrowedBooksByUser = userRegistry.BorrowedBooks.Count;
             if (alreadyBorrowedBooksByUser >= BookConstants.MaxBooksBorrowingAllowed)
