@@ -1,5 +1,7 @@
 ﻿using LibraryManagement.Api.Common.Contracts;
+using LibraryManagement.Api.Common.Contracts.Constants;
 using LibraryManagement.Api.Contracts;
+using LibraryManagement.Api.Contracts.Constants;
 using LibraryManagement.Api.Contracts.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +25,15 @@ namespace LibraryManagement.Api.Business
         public async Task<Response<List<Book>>> GetAllAvailableBooks()
         {
             List<Book> allBorrowedBooks = GetAllBorrowedBooks();
-            var allBooks = this.libraryRegistry.BookRegistry.Select(a => a.Book).ToList();
+            var bookRegisties = this.libraryRegistry.BookRegistry;
+            var allBooks = new List<Book>();
+            foreach (var bookRegistry in bookRegisties)
+            {
+                for(int i=0;i< bookRegistry.Count; i++)
+                {
+                    allBooks.Add(bookRegistry.Book);
+                }
+            }
 
             var availableBooks = GetAvailableBooks(allBorrowedBooks, allBooks);
 
@@ -94,6 +104,47 @@ namespace LibraryManagement.Api.Business
             }
 
             return allBooksWithCopies;
+        }
+
+        public async Task<Response<bool>> BorrowBook(string email, int bookId)
+        {
+            var userRegistry = this.libraryRegistry.UserRegistry;
+            var user = userRegistry.Where(a => a.User.Email == email).FirstOrDefault();
+
+            var validateBookBorrowingResponse = await ValidateIfUserCanBorrow(user, bookId);
+            if(validateBookBorrowingResponse.ResultType == ResultType.Success)
+            {
+                user.BorrowedBooks.Add(validateBookBorrowingResponse.Result);
+                this.libraryRegistry.SetUserRegistry(userRegistry);
+
+                return new Response<bool>() { Result = true };
+            }
+
+            return new Response<bool>() { ResultType = validateBookBorrowingResponse.ResultType, Messages = validateBookBorrowingResponse.Messages };
+        }
+
+        private async Task<Response<Book>> ValidateIfUserCanBorrow(UserRegistry userRegistry, int bookId)
+        {
+            if (userRegistry == null)
+            {
+                return new Response<Book>() { ResultType = ResultType.ValidationError, Messages = new List<string>() { AppBusinessConstants.UserDoesntExists } };
+            }
+
+
+            var alreadyBorrowedBooksByUser = userRegistry.BorrowedBooks.Count;
+            if (alreadyBorrowedBooksByUser >= BookConstants.MaxBooksBorrowingAllowed)
+            {
+                return new Response<Book>() { ResultType = ResultType.ValidationError, Messages = new List<string>() { AppBusinessConstants.BookBorrowingMaxLimitExceeded } };
+            }
+
+            var getAvailableBooks = await this.GetAllAvailableBooks();
+            var bookToBorrow = getAvailableBooks.Result.Where(a => a.Id == bookId).FirstOrDefault();
+            if (bookToBorrow == null)
+            {
+                return new Response<Book>() { ResultType = ResultType.ValidationError, Messages = new List<string>() { AppBusinessConstants.BookDoesntExists } };
+            }
+
+            return new Response<Book>() { Result = bookToBorrow };
         }
     }
 }
