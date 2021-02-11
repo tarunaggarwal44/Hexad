@@ -13,9 +13,6 @@ namespace LibraryManagement.Api.Business
     [TestFixture]
     public class LibraryManagementBusinessTests
     {
-        private const string CUSTOMERID = "CUSTOMERID";
-        private const string EMAIL = "a@gmail.com";
-
         private ILibraryRegistry libraryRegistry;
         private LibraryManagementBusiness libraryManagementBusiness;
 
@@ -101,10 +98,27 @@ namespace LibraryManagement.Api.Business
             this.libraryManagementBusiness = new LibraryManagementBusiness(this.libraryRegistry);
 
 
-            var borrowBookResponse = await this.libraryManagementBusiness.BorrowBook(UserConstants.User1, 1);
+            var borrowBookResponse = await this.libraryManagementBusiness.BorrowBook(UserConstants.User1, 3);
 
             Assert.AreEqual(borrowBookResponse.ResultType, ResultType.ValidationError);
             Assert.AreEqual(borrowBookResponse.Messages.First(), AppBusinessConstants.BookBorrowingMaxLimitExceeded);
+        }
+
+        [Test]
+        public async Task BorrowBook_UserAlreadyHasSameBook_ReturnsUserAlreadyHasSameBookValidationResponse()
+        {
+            var allUsers = GetAllUsers();
+            var allBooks = GetAllBooks();
+            var uniqueBooksCount = allBooks.GroupBy(a => a.Id).Count();
+            this.libraryRegistry = new LibraryRegistry(allUsers, allBooks);
+            this.libraryRegistry.SetUserRegistry(GetDefaultUserRegistries(1, BookConstants.Sapien));
+            this.libraryManagementBusiness = new LibraryManagementBusiness(this.libraryRegistry);
+
+
+            var borrowBookResponse = await this.libraryManagementBusiness.BorrowBook(UserConstants.User1, 1);
+
+            Assert.AreEqual(borrowBookResponse.ResultType, ResultType.ValidationError);
+            Assert.AreEqual(borrowBookResponse.Messages.First(), AppBusinessConstants.UserAlreadyHasSameBook);
         }
 
 

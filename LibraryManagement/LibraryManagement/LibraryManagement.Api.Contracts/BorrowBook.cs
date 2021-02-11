@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LibraryManagement.Api.Contracts
+﻿namespace LibraryManagement.Api.Contracts
 {
     public class BorrowBook
     {
