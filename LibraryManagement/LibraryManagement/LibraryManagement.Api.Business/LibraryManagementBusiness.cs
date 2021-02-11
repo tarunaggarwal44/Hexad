@@ -17,11 +17,6 @@ namespace LibraryManagement.Api.Business
             this.libraryRegistry = libraryRegistry;
         }
 
-
-
-
-
-
         public async Task<Response<List<Book>>> GetAllAvailableBooks()
         {
             List<Book> allBorrowedBooks = GetAllBorrowedBooks();
@@ -39,6 +34,40 @@ namespace LibraryManagement.Api.Business
 
             var response = new Response<List<Book>>() { Result = availableBooks };
             return await Task.FromResult(response);
+        }
+
+        public async Task<Response<bool>> BorrowBook(string email, int bookId)
+        {
+            var userRegistry = this.libraryRegistry.UserRegistry;
+            var user = userRegistry.Where(a => a.User.Email == email).FirstOrDefault();
+
+            var validateBookBorrowingResponse = await ValidateIfUserCanBorrow(user, bookId);
+            if (validateBookBorrowingResponse.ResultType == ResultType.Success)
+            {
+                user.BorrowedBooks.Add(validateBookBorrowingResponse.Result);
+                this.libraryRegistry.SetUserRegistry(userRegistry);
+
+                return new Response<bool>() { Result = true };
+            }
+
+            return new Response<bool>() { ResultType = validateBookBorrowingResponse.ResultType, Messages = validateBookBorrowingResponse.Messages };
+        }
+
+        public async Task<Response<bool>> ReturnBook(string email, int bookId)
+        {
+            var userRegistry = this.libraryRegistry.UserRegistry;
+            var user = userRegistry.Where(a => a.User.Email == email).FirstOrDefault();
+
+            var validateBookReturnResponse = ValidateIfUserCanReturn(user, bookId);
+            if (validateBookReturnResponse.ResultType == ResultType.Success)
+            {
+                user.BorrowedBooks.Remove(validateBookReturnResponse.Result);
+                this.libraryRegistry.SetUserRegistry(userRegistry);
+
+                return await Task.FromResult(new Response<bool>() { Result = true });
+            }
+
+            return await Task.FromResult(new Response<bool>() { ResultType = validateBookReturnResponse.ResultType, Messages = validateBookReturnResponse.Messages });
         }
 
         private static List<Book> GetAllBooksInLibrary(List<BookRegistry> bookRegisties)
@@ -113,23 +142,6 @@ namespace LibraryManagement.Api.Business
             return allBooksWithCopies;
         }
 
-        public async Task<Response<bool>> BorrowBook(string email, int bookId)
-        {
-            var userRegistry = this.libraryRegistry.UserRegistry;
-            var user = userRegistry.Where(a => a.User.Email == email).FirstOrDefault();
-
-            var validateBookBorrowingResponse = await ValidateIfUserCanBorrow(user, bookId);
-            if(validateBookBorrowingResponse.ResultType == ResultType.Success)
-            {
-                user.BorrowedBooks.Add(validateBookBorrowingResponse.Result);
-                this.libraryRegistry.SetUserRegistry(userRegistry);
-
-                return new Response<bool>() { Result = true };
-            }
-
-            return new Response<bool>() { ResultType = validateBookBorrowingResponse.ResultType, Messages = validateBookBorrowingResponse.Messages };
-        }
-
         private async Task<Response<Book>> ValidateIfUserCanBorrow(UserRegistry userRegistry, int bookId)
         {
             if (userRegistry == null)
@@ -158,6 +170,22 @@ namespace LibraryManagement.Api.Business
             }
 
             return new Response<Book>() { Result = bookToBorrow };
+        }
+
+        private Response<Book> ValidateIfUserCanReturn(UserRegistry userRegistry, int bookId)
+        {
+            if (userRegistry == null)
+            {
+                return new Response<Book>() { ResultType = ResultType.ValidationError, Messages = new List<string>() { AppBusinessConstants.UserDoesntExists } };
+            }
+
+            var hasUserBookToReturn = userRegistry.BorrowedBooks.FirstOrDefault(a => a.Id == bookId);
+            if (hasUserBookToReturn == null)
+            {
+                return new Response<Book>() { ResultType = ResultType.ValidationError, Messages = new List<string>() { AppBusinessConstants.UserDoesntHaveBookToReturn } };
+            }
+
+            return new Response<Book>() { Result = hasUserBookToReturn };
         }
     }
 }

@@ -10,5 +10,8 @@ namespace LibraryManagement.Api.Contracts.Interfaces
         Task<Response<bool>> BorrowBook(string email, int bookId);
 
 
+        Task<Response<bool>> ReturnBook(string email, int bookId);
+
+
     }
 }
