@@ -1,5 +1,8 @@
+using LibraryManagement.Api.Common.Web.ExceptionHandlers;
+using LibraryManagement.Api.Injections;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,16 +23,22 @@ namespace LibraryManagement.Api
         public void ConfigureServices(IServiceCollection services)
         {
 
-
+            Injections(services);
 
             services.AddControllers();
 
             SwaggerDocumentation(services);
 
+            BadRequestConfiguration(services);
         }
 
-      
 
+        private static void Injections(IServiceCollection services)
+        {
+            services.AddHttpContextAccessor();
+
+            LibraryManagementInjection.LoadInjections(services);
+        }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
@@ -46,6 +55,7 @@ namespace LibraryManagement.Api
 
 
 
+            app.ConfigureGlobalExceptionHandler();
 
             app.UseRouting();
 
@@ -64,7 +74,19 @@ namespace LibraryManagement.Api
 
 
 
-
+        private static void BadRequestConfiguration(IServiceCollection services)
+        {
+            services.AddMvc()
+       .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+       .ConfigureApiBehaviorOptions(options =>
+       {
+           options.InvalidModelStateResponseFactory = context =>
+           {
+               var problems = new BadRequestExceptionHandler(context);
+               return new BadRequestObjectResult(problems.ErrorMessages);
+           };
+       });
+        }
 
         private static void SwaggerDocumentation(IServiceCollection services)
         {

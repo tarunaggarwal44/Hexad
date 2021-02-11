@@ -17,5 +17,10 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\LibraryManagement.Api.Common.Web\LibraryManagement.Api.Common.Web.csproj" />
+    <ProjectReference Include="..\LibraryManagement.Api.Injections\LibraryManagement.Api.Injections.csproj" />
+  </ItemGroup>
+
 
 </Project>
