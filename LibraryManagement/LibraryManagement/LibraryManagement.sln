@@ -3,31 +3,33 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagement.Api", "LibraryManagement.Api\LibraryManagement.Api.csproj", "{5FA5A259-2409-49D9-A60B-32BFAE9B3BC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.Api", "LibraryManagement.Api\LibraryManagement.Api.csproj", "{5FA5A259-2409-49D9-A60B-32BFAE9B3BC9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LibraryManagement", "LibraryManagement", "{9FA644F1-4DE8-4BA4-8E82-F30C6401035C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{7D14E258-3B37-4617-BE97-C01743BD0FD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagement.Api.Common", "..\Common\LibraryManagement.Api.Common\LibraryManagement.Api.Common.csproj", "{319D530A-F0E8-4F1C-B138-09D8313C969C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.Api.Common", "..\Common\LibraryManagement.Api.Common\LibraryManagement.Api.Common.csproj", "{319D530A-F0E8-4F1C-B138-09D8313C969C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagement.Api.Common.Web", "..\Common\LibraryManagement.Api.Common.Web\LibraryManagement.Api.Common.Web.csproj", "{A04E0966-489E-4E2D-87E9-2E8F4432C1D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.Api.Common.Web", "..\Common\LibraryManagement.Api.Common.Web\LibraryManagement.Api.Common.Web.csproj", "{A04E0966-489E-4E2D-87E9-2E8F4432C1D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagement.Api.Injections", "LibraryManagement.Api.Injections\LibraryManagement.Api.Injections.csproj", "{60BE7338-2F6E-408A-98A6-6695D0DC45F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.Api.Injections", "LibraryManagement.Api.Injections\LibraryManagement.Api.Injections.csproj", "{60BE7338-2F6E-408A-98A6-6695D0DC45F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagement.Api.Common.Contracts", "..\Common\LibraryManagement.Api.Common.Contracts\LibraryManagement.Api.Common.Contracts.csproj", "{63F75F89-103A-4E1B-92BD-B3C8209349BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.Api.Common.Contracts", "..\Common\LibraryManagement.Api.Common.Contracts\LibraryManagement.Api.Common.Contracts.csproj", "{63F75F89-103A-4E1B-92BD-B3C8209349BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagement.Api.Business", "LibraryManagement.Api.Business\LibraryManagement.Api.Business.csproj", "{74A8BB89-2B6D-49F8-92A0-DEC544727379}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.Api.Business", "LibraryManagement.Api.Business\LibraryManagement.Api.Business.csproj", "{74A8BB89-2B6D-49F8-92A0-DEC544727379}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagement.Api.Repositories", "LibraryManagement.Api.Repositories\LibraryManagement.Api.Repositories.csproj", "{DF23ABE2-B10B-4FD2-B5BF-7471E3AF08B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.Api.Repositories", "LibraryManagement.Api.Repositories\LibraryManagement.Api.Repositories.csproj", "{DF23ABE2-B10B-4FD2-B5BF-7471E3AF08B0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{35455B68-9800-4074-BF83-F368AD92C610}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagement.Api.Business.Tests", "Tests\LibraryManagement.Api.Business.Tests\LibraryManagement.Api.Business.Tests.csproj", "{239FFA7B-18E4-4D46-86F6-F5D4C1A90F7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.Api.Business.Tests", "Tests\LibraryManagement.Api.Business.Tests\LibraryManagement.Api.Business.Tests.csproj", "{239FFA7B-18E4-4D46-86F6-F5D4C1A90F7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagement.Api.Repositories.Tests", "Tests\LibraryManagement.Api.Repositories.Tests\LibraryManagement.Api.Repositories.Tests.csproj", "{76874B42-CC4F-4171-9DBA-39F0A42D2C8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.Api.Repositories.Tests", "Tests\LibraryManagement.Api.Repositories.Tests\LibraryManagement.Api.Repositories.Tests.csproj", "{76874B42-CC4F-4171-9DBA-39F0A42D2C8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagement.Api.Injections.Tests", "Tests\LibraryManagement.Api.Injections.Tests\LibraryManagement.Api.Injections.Tests.csproj", "{5662D42E-5385-4B83-BA9D-D57FF2593515}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagement.Api.Injections.Tests", "Tests\LibraryManagement.Api.Injections.Tests\LibraryManagement.Api.Injections.Tests.csproj", "{5662D42E-5385-4B83-BA9D-D57FF2593515}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagement.Api.Contracts", "LibraryManagement.Api.Contracts\LibraryManagement.Api.Contracts.csproj", "{C78F54D8-C1B6-4EF1-BD12-0E43759E94CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{5662D42E-5385-4B83-BA9D-D57FF2593515}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5662D42E-5385-4B83-BA9D-D57FF2593515}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5662D42E-5385-4B83-BA9D-D57FF2593515}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C78F54D8-C1B6-4EF1-BD12-0E43759E94CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C78F54D8-C1B6-4EF1-BD12-0E43759E94CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C78F54D8-C1B6-4EF1-BD12-0E43759E94CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C78F54D8-C1B6-4EF1-BD12-0E43759E94CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +97,7 @@ Global
 		{239FFA7B-18E4-4D46-86F6-F5D4C1A90F7A} = {35455B68-9800-4074-BF83-F368AD92C610}
 		{76874B42-CC4F-4171-9DBA-39F0A42D2C8B} = {35455B68-9800-4074-BF83-F368AD92C610}
 		{5662D42E-5385-4B83-BA9D-D57FF2593515} = {35455B68-9800-4074-BF83-F368AD92C610}
+		{C78F54D8-C1B6-4EF1-BD12-0E43759E94CA} = {9FA644F1-4DE8-4BA4-8E82-F30C6401035C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {739ACB9E-2463-4F75-A879-CBBA3B967DC8}
