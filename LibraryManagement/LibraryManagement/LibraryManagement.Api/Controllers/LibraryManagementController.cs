@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace LibraryManagement.Api.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
     [ApiController]
     public class LibraryManagementController : BaseApiController
     {
@@ -21,6 +23,7 @@ namespace LibraryManagement.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet()]
+        [Route("api/v1/LibraryManagement")]
         public async Task<IActionResult> Get()
         {
             var getBooksResponse = await this.libraryManagementBusiness.GetAllAvailableBooks();
@@ -31,10 +34,24 @@ namespace LibraryManagement.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost]
-        public async Task<IActionResult> Post(BorrowBook borrowBook)
+        [Route("api/v1/LibraryManagement/BorrowBook")]
+
+        public async Task<IActionResult> BorrowBook(BorrowBook borrowBook)
         {
-            var getBooksResponse = await this.libraryManagementBusiness.BorrowBook(borrowBook.Email, borrowBook.BookId);
-            return this.CreateGetHttpResponse(getBooksResponse);
+            var getBorrowBookResponse = await this.libraryManagementBusiness.BorrowBook(borrowBook.Email, borrowBook.BookId);
+            return this.CreateGetHttpResponse(getBorrowBookResponse);
+        }
+
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpPost]
+        [Route("api/v1/LibraryManagement/ReturnBook")]
+
+        public async Task<IActionResult> ReturnBook(ReturnBook returnBook)
+        {
+            var getReturnBookResponse = await this.libraryManagementBusiness.ReturnBook(returnBook.Email, returnBook.BookId);
+            return this.CreateGetHttpResponse(getReturnBookResponse);
         }
     }
 }
